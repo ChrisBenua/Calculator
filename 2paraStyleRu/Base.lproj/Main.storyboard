@@ -32,9 +32,6 @@
                                                 <state key="normal" title="C">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <connections>
-                                                    <segue destination="qET-KG-iF2" kind="show" id="lxj-MH-Lbq"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wiX-uA-zZc">
                                                 <rect key="frame" x="95" y="0.0" width="90" height="90"/>
@@ -185,6 +182,9 @@
                                                 <state key="normal" title="=">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="equalTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Na9-3h-WEx"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -221,6 +221,7 @@
                     </view>
                     <connections>
                         <outlet property="clearButton" destination="pux-3S-1CT" id="A1i-zZ-p7K"/>
+                        <outlet property="equalButton" destination="wto-9h-3OY" id="O2O-qP-ipb"/>
                         <outlet property="label" destination="zQc-hL-noh" id="xbC-s0-c5X"/>
                         <outlet property="stackView" destination="ZBK-HB-kCF" id="3E5-GR-72r"/>
                         <outletCollection property="digitsButton" destination="eji-eO-Lfc" collectionClass="NSMutableArray" id="Ctq-5l-Lg6"/>
@@ -235,7 +236,6 @@
                         <outletCollection property="operationButton" destination="GE5-OP-bzX" collectionClass="NSMutableArray" id="k8W-SI-PlK"/>
                         <outletCollection property="operationButton" destination="eoi-fd-bcF" collectionClass="NSMutableArray" id="NxH-aR-WBl"/>
                         <outletCollection property="operationButton" destination="mPf-vu-34r" collectionClass="NSMutableArray" id="DUh-eE-Tx2"/>
-                        <outletCollection property="operationButton" destination="wto-9h-3OY" collectionClass="NSMutableArray" id="b2M-Ss-tuz"/>
                         <outletCollection property="operationButton" destination="UJ5-Ww-ca9" collectionClass="NSMutableArray" id="EdV-XN-2eh"/>
                         <outletCollection property="digitsButton" destination="qGi-Vh-BIc" collectionClass="NSMutableArray" id="HIg-Wd-gjB"/>
                         <outletCollection property="operationButton" destination="69Q-Cp-fJw" collectionClass="NSMutableArray" id="STN-AD-E8b"/>

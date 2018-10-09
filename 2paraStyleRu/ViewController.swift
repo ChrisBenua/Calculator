@@ -18,6 +18,12 @@ class ViewController: UIViewController {
     var operation: String = ""
     var isAfterEquality: Bool = false
     
+    @IBAction func equalTapped(_ sender: Any) {
+        if (rememberedNumber != undefConstant) {
+            evaluate()
+        }
+    }
+    @IBOutlet weak var equalButton: UIButton!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet var emptyButtons: [UIButton]!
     @IBOutlet weak var clearButton: UIButton!
@@ -25,89 +31,54 @@ class ViewController: UIViewController {
     @IBOutlet var digitsButton: [UIButton]!
     @IBOutlet var operationButton: [UIButton]!
     
+    func evaluate() {
+        if operation == "+" {
+            performOperation { (a, b) -> Double in
+                return a + b
+            }
+        } else if operation == "X" {
+            performOperation { (a, b) -> Double in
+                return a * b
+            }
+        } else if (operation == "/") {
+            performOperation { (a, b) -> Double in
+                return a / b
+            }
+        } else if (operation == "-") {
+            performOperation { (a, b) -> Double in
+                return a - b
+            }
+        } else {
+            print("UNDEFINED OPERATION")
+        }
+    }
+    
     fileprivate func correct() {
-        if currentNumber - Double(Int(currentNumber)) == 0 {
-            let temp = Int(currentNumber)
+        if rememberedNumber - Double(Int(rememberedNumber)) == 0 {
+            let temp = Int(rememberedNumber)
             label.text = String(temp)
         } else {
-            label.text = String(currentNumber)
+            label.text = String(rememberedNumber)
         }
+    }
+    
+    func performOperation(work: (Double, Double) -> Double) {
+        rememberedNumber = work(rememberedNumber, currentNumber)
+        correct()
     }
     
     @objc func handleDigitTapping(_ sender : UIButton) {
-        if isAfterEquality && !(label.text?.isEmpty)! {
-            print(sender.currentTitle!)
-            currentNumber = Double(sender.currentTitle!)!
-            rememberedNumber = 0
-            correct()
-        }
-        else if performMath {
-            isAfterEquality = false
-
-            label.text = sender.currentTitle
-            currentNumber = Double(label.text!)!
-            performMath = false
-        } else {
-            isAfterEquality = false
-
-            if let text = sender.currentTitle {
-                //label.text! += text
-                
-                currentNumber *= 10
-                currentNumber += Double(text)!
-                correct()
-            }
-        }
+        label.text! += (sender.titleLabel?.text)!
+        currentNumber = Double(label.text!)!
     }
     
     @objc func handleOpearation(_ sender : UIButton) {
-        guard let text = sender.currentTitle else { return }
-        if text != "=" && text != "," && text != "C" {
-            if isAfterEquality {
-                isAfterEquality = false
-            }
-            if (rememberedNumber != undefConstant) {
-                if operation == "+" {
-                    currentNumber = currentNumber + rememberedNumber
-                }
-                if operation == "-" {
-                    currentNumber = -(currentNumber - rememberedNumber)
-                }
-                if operation == "X" {
-                    currentNumber = currentNumber * rememberedNumber
-                }
-                if operation == "/" {
-                    currentNumber = rememberedNumber / currentNumber
-                }
-            }
-            rememberedNumber = currentNumber
-            
-            currentNumber = 0
-            
-            performMath = true
-            operation = text
-        } else if text == "=" {
-            if operation == "+" {
-                currentNumber = currentNumber + rememberedNumber
-            }
-            if operation == "-" {
-                currentNumber = -(currentNumber - rememberedNumber)
-            }
-            if operation == "X" {
-                currentNumber = currentNumber * rememberedNumber
-            }
-            if operation == "/" {
-                currentNumber = rememberedNumber / currentNumber
-            }
-            label.text = "\(currentNumber)"
-            correct()
-            //rememberedNumber = undefConstant
-            isAfterEquality = true
-        } else if text == "C" {
-            currentNumber = 0
-            rememberedNumber = undefConstant
-            label.text = ""
+        if (label.text?.isEmpty)! {
+            return
         }
+        operation = (sender.titleLabel?.text)!
+        rememberedNumber = Double(label.text!)!
+        label.text = ""
     }
     
     fileprivate func setUpButton(button : UIButton) {
@@ -115,9 +86,7 @@ class ViewController: UIViewController {
         button.layer.cornerRadius = button.frame.height / 3.4
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print(view.frame)
+    fileprivate func viewSetUp() {
         view.backgroundColor = .black
         // Do any additional setup after loading the view, typically from a nib.
         stackView.addBackground(color: .black)
@@ -137,6 +106,13 @@ class ViewController: UIViewController {
         for button in emptyButtons {
             setUpButton(button: button)
         }
+        setUpButton(button: equalButton)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print(view.frame)
+        viewSetUp()
     }
 
     override func didReceiveMemoryWarning() {
